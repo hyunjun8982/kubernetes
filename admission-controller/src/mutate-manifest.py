@@ -41,10 +41,12 @@ def check_image_name(container_spec, stage):
     if 'kakaobank.harbor' not in image:
         if '/' in image:
             split_image = image.split('/', 1)[1]
-            modified_image = 'kakaobank.harbor.' + stage + '/' + split_image
+            modified_image = 'kakaobank.harbor.{}/{}'.format(stage, split_image)
         else:
-            modified_image = 'kakaobank.harbor.' + stage + '/' + image
+            modified_image = 'kakaobank.harbor.{}/{}'.format(stage, image)
         container_spec["image"] = modified_image
+    else:
+        pass
 
 def check_stage(request_info, stage, patch):
     if stage == 'dev':
@@ -53,10 +55,10 @@ def check_stage(request_info, stage, patch):
                 "allowed": True,
                 "uid": request_info["request"]["uid"],
                 "patch": base64.b64encode(str(patch).encode()).decode(),
-                "patchtype": "JSONPatch",
+                "patchtype": "JSONPatch"
             }
         }
-    if stage == 'prd':
+    elif stage == 'prd':
         admissionReview = {
             "response": {
                 "allowed": False,
@@ -66,7 +68,9 @@ def check_stage(request_info, stage, patch):
                 }
             }
         }
+    else:
+        pass
     return admissionReview
     
 if __name__=='__main__':
-    app.run(host='0.0.0.0', debug=True, ssl_context=('/run/secrets/tls/tls.crt', '/run/secrets/tls/tls.key'))
+    app.run(host='0.0.0.0', debug=False, ssl_context=('/run/secrets/tls/tls.crt', '/run/secrets/tls/tls.key'))
