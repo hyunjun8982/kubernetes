@@ -4,7 +4,6 @@ metadata:
   name: example-dev-app
   annotations:
     stage: dev
-  namespace: t3qtest
   labels:
     app: example-dev-app
 spec:

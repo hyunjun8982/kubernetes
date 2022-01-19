@@ -12,7 +12,7 @@ webhooks:
       caBundle: {{CA_PEM_BASE64}}
     matchPolicy: Equivalent
     sideEffects: None
-    admissionReviewVersions: ["v1", "v1beta1"]
+    admissionReviewVersions: ["v1beta1"]
     rules:
       - operations: [ "CREATE" ]
         apiGroups: ["apps"]

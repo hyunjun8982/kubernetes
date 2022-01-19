@@ -4,7 +4,6 @@ metadata:
   name: example-prd-app
   annotations:
     stage: prd
-  namespace: t3qtest
   labels:
     app: example-prd-app
 spec:
