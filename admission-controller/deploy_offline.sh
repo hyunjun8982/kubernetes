@@ -1,6 +1,6 @@
 # 0. Define variables
-IMAGE = admission-controller-webhook-daemon:latest
-NAMESPACE = mutate-server-test
+IMAGE=admission-controller-webhook-daemon:latest
+NAMESPACE=mutate-server-test
 
 # 1.1. Load docker base image
 docker load -i image/python-3.8-slim.tar

@@ -1,6 +1,6 @@
 # 0. Define variables
-IMAGE = admission-controller-webhook-daemon:latest
-NAMESPACE = mutate-server-test
+IMAGE=admission-controller-webhook-daemon:latest
+NAMESPACE=mutate-server-test
 
 # 1. Build docker image
 docker build -t $IMAGE -f image/Dockerfile .
