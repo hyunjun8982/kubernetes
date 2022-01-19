@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webhook-mutate-server
+  namespace: {{NAMESPACE}}
+  labels:
+    app: webhook-mutate-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webhook-mutate-server
+  template:
+    metadata:
+      labels:
+        app: webhook-mutate-server
+    spec:
+#      affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#            - matchExpressions:
+#              - key: kubernetes.io/hostname
+#                operator: In
+#                values:
+#                - t3qai-master01
+      containers:
+      - name: server
+        image: admission-controller-webhook-daemon:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+          name: flask
+        volumeMounts:
+        - name: webhook-tls
+          mountPath: /run/secrets/tls
+          readOnly: true
+      volumes:
+      - name: webhook-tls
+        secret:
+          secretName: webhook-certs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mutate-server-svc
+  namespace: {{NAMESPACE}}
+spec:
+  selector:
+    app: webhook-mutate-server
+  ports:
+    - port: 443
+      targetPort: flask

@@ -1,0 +1,46 @@
+1. shallow copy / deep copy 비교
+2. pprint : json 정돈 출력
+3. jsonpatch
+4. jsonify
+ jsonify는 아주 간편하지만, 아스키 이스케이프 인코딩을 적용하기 때문에 Flask처럼 웹 서버로 쓰이는 환경에서는 데이터가 변경되어 전송됩니다. 한글로 데이터를 주고받는 API라면 jsonify가 아니라, json.dumps 사용을 권장하는 편이라고 합니다.
+ jsonify를 사용하면서 한글 데이터를 유지하여 전송할 수 있는 방법은 아래 링크를 통해 확인할 수 있습니다.
+ https://growingsaja.tistory.com/354
+
+# TODO
+1. print >> logging
+2. 쿠버네티스 1.19 이상의 버전에서는 SAN 인증서를 사용해야함
+- 인증서 생성 방법 변경
+$ openssl genrsa -out ca.key 2048
+$ openssl req -new -x509 -days 365 -key ca.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=Acme Root CA" -out ca.crt
+
+$ openssl req -newkey rsa:2048 -nodes -keyout server.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=mutate-server-svc.t3qtest.svc" -out server.csr
+$ openssl x509 -req -extfile <(printf "subjectAltName=DNS:mutate-server-svc.t3qtest.svc") -days 365 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt
+
+3. 에러
+[root@t3qai-master01 t3qtest]# kubectl create -f deploy-exam-dev.yaml
+Error from server (InternalError): error when creating "deploy-exam-dev.yaml": Internal error occurred: failed calling webhook "mutate-server-svc.t3qtest.svc": expected webhook response of admission.k8s.io/v1, Kind=AdmissionReview, got /, Kind=
+
+- 원인 : admission 의 webhook 응답이 기대한것과 다름. 나는 v1을 요청했으나 응답이 v1으로 오지 않았다는 것.
+- 해결 : admissionReviewVersions 변경 > v1beta1만 받도록 변경
+
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: webhook-mwc
+webhooks:
+  - name: mutate-server-svc.t3qtest.svc
+    clientConfig:
+      service:
+        name: mutate-server-svc
+        namespace: t3qtest
+        path: "/mutate"
+      caBundle: {{CA_PEM_BASE64}}
+    matchPolicy: Equivalent
+    sideEffects: None
+    admissionReviewVersions: ["v1", "v1beta1"]
+    rules:
+      - operations: [ "CREATE" ]
+        apiGroups: ["apps"]
+        apiVersions: ["v1"]
+        resources: ["deployments"]
+        scope: "Namespaced"
