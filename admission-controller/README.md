@@ -12,3 +12,13 @@ Admission Controller는 쿠버네티스 API를 호출했을 때, 해당 요청 �
 * http request(yaml 또는 json)을 받아 해당 요청의 생성 가능 여부 확인
 * 과정 : request를 쿠버네티스 관리자가 생성한 webhook server로 보냄 -> webhook server에서 request 내용 검증 -> k8s apiserver로 reponse 보냄
 
+## Deploy Admission Controller
+
+* Online
+   ```shell
+   sh deploy_online.sh
+   ```
+* Offline
+   ```shell
+   sh deploy_offline.sh
+   ```
