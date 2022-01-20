@@ -21,7 +21,7 @@ Admission Controller는 쿠버네티스 API를 호출했을 때, 해당 요청 �
 * 쿠버네티스 클러스터 설치 (버전 1.9 이상)
 * 다음 명령어로 출력 확인
   ``` shell
-  kubectl api-versions | grep admissionregistration.k8s.io/v1
+  $ kubectl api-versions | grep admissionregistration.k8s.io/v1
   ```
 
 ## Admission Controller 배포 
@@ -30,7 +30,7 @@ Admission Controller는 쿠버네티스 API를 호출했을 때, 해당 요청 �
 * Online
    ```shell
    # 필요한 경우 쉘스크립트 내부의 변수를 변경해도 된다. (webhook 도커 이미지명, 네임스페이스명)
-   sh deploy_online.sh
+   $ sh deploy_online.sh
    ```
 1. Webhook Server 도커 이미지 생성
 2. Webhook Server에 대한 CA, 인증서, 개인 키 발행 및 쿠버네티스 secret으로 등록
@@ -39,25 +39,25 @@ Admission Controller는 쿠버네티스 API를 호출했을 때, 해당 요청 �
 
 * Offline
    ```shell
-   sh deploy_offline.sh
+   $ sh deploy_offline.sh
    ```
 
 ## 배포 확인
 
 1. Pod 확인
    ```shell
-   kubectl get pod -n mutate-server-test
+   $ kubectl get pod -n mutate-server-test
    NAME                                   READY   STATUS    RESTARTS   AGE
    webhook-mutate-server-8ff966d7-8b78d   1/1     Running   0          21h
    ```
 2. MutatingWebhookConfiguration 확인
    ```shell
-   kubectl get mutatingwebhookconfigurations
+   $ kubectl get mutatingwebhookconfigurations
    NAME          WEBHOOKS   AGE
    webhook-mwc   1          21h
    ```
 3. Example Deployment 배포
    ```shell
-   kubectl create -f yaml/example/example-dev-deploy.yaml
-   kubectl create -f yaml/example/example-prd-deploy.yaml.
+   $ kubectl create -f yaml/example/example-dev-deploy.yaml
+   $ kubectl create -f yaml/example/example-prd-deploy.yaml.
    ```
