@@ -23,12 +23,12 @@ def webhook():
         check_image_name(container_spec, stage)
 
     patch = jsonpatch.JsonPatch.from_diff(request_info_object, modified_info_object)
-    print("#################### JSON Patch ##################### ")
+    print("############################## JSON Patch ############################### ")
     pprint(str(patch))
     print('\n')
 
     admissionReview = check_stage(request_info, stage, patch)
-    print("#################### This data will be sent to k8s (admissionReview) ####################")
+    print("######################## AdmissionReview to Kubernetes  ########################")
     pprint(admissionReview)
     print('\n')
 
@@ -64,7 +64,7 @@ def check_stage(request_info, stage, patch):
                 "allowed": False,
                 "uid": request_info["request"]["uid"],
                 "status":{
-                    "message": "Denied because of stage is prd"
+                    "message": "Denied, because stage is prd"
                 }
             }
         }
