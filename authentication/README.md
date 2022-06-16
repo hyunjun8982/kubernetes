@@ -8,7 +8,7 @@
 
 ### 쿠버네티스 접근제어 체계
 
-![ex_screenshot](../접근제어체계_01.png)
+![ex_screenshot](../img/접근제어체계_01.png)
 
 * Authentication: 접속한 사람의 신분을 시스템이 인증하는 단계입니다. (신분증 확인)
 * Authorization: 누가 어떤 권한을 가지고 어떤 행동을 할 수 있는지 확인하는 단계입니다. (view권한, create권한 등)
