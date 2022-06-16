@@ -2,7 +2,7 @@
 
 Admission Controller는 쿠버네티스 API를 호출했을 때, 해당 요청 내용을 변형(Mutate) 또는 검증(Validate)하는 플러그인의 집합이다.
 
-![ex_screenshot](../img/admission-controller-01.png)
+![ex_screenshot](../../img/admission-controller-01.png)
 
 1. Mutating admission
 * http request(yaml 또는 json)을 검사한 후, 적절한 값으로 변경
