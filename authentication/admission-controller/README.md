@@ -59,5 +59,5 @@ Admission Controller는 쿠버네티스 API를 호출했을 때, 해당 요청 �
 3. Example Deployment 배포
    ```shell
    $ kubectl create -f yaml/example/example-dev-deploy.yaml
-   $ kubectl create -f yaml/example/example-prd-deploy.yaml.
+   $ kubectl create -f yaml/example/example-prd-deploy.yaml
    ```

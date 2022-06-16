@@ -21,7 +21,7 @@ $ openssl x509 -req -extfile <(printf "subjectAltName=DNS:mutate-server-svc.t3qt
 Error from server (InternalError): error when creating "deploy-exam-dev.yaml": Internal error occurred: failed calling webhook "mutate-server-svc.t3qtest.svc": expected webhook response of admission.k8s.io/v1, Kind=AdmissionReview, got /, Kind=
 
 - 원인 : admission 의 webhook 응답이 기대한것과 다름. 나는 v1을 요청했으나 응답이 v1으로 오지 않았다는 것.
-- 해결 : admissionReviewVersions 변경 > v1beta1만 받도록 변경
+- 해결 : MutatingWebhookConfiguration의 webhooks.admissionReviewVersions 변경 > v1beta1만 받도록 변경
 
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
@@ -37,7 +37,7 @@ webhooks:
       caBundle: {{CA_PEM_BASE64}}
     matchPolicy: Equivalent
     sideEffects: None
-    admissionReviewVersions: ["v1", "v1beta1"]
+    admissionReviewVersions: ["v1beta1"]
     rules:
       - operations: [ "CREATE" ]
         apiGroups: ["apps"]
