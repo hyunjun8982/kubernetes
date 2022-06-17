@@ -16,7 +16,12 @@ Admission Controller는 쿠버네티스 API를 호출했을 때, 해당 요청 �
   * webhook server에서 request 내용 검증 -> 
   * k8s apiserver로 reponse 보냄
 
+## 구현 내용
+
+* 사용자 Webhook 서버 구현 => Dynamic Admission Control 동작 확인
+
 ## 전제 조건
+
 * 도커 설치
 * 쿠버네티스 클러스터 설치 (버전 1.9 이상)
 * 다음 명령어로 출력 확인
